@@ -1,12 +1,21 @@
 import React, { useState } from 'react'
 import './login.css'
+// import ApiService from './apiService'
+import axios from 'axios'
 
 function Login() {
  const [username , setUsername] = useState('')
  const [password , setPassword] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const credentials = await axios.post( 'http://localhost:5000/api/auth/login' , {username , password});
+      // const credentials = await ApiService.login ;
+      console.log('logged in with :',credentials);
+    }catch (error) {
+      console.error("login failed : " , error.message);
+    }
 
     console.log("usename :" ,username);
     console.log("password :",password);
