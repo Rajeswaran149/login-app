@@ -9,7 +9,7 @@
 .login-page{
     background: #0a4375;
     width: 25%;
-    height: 50%;
+    height: 65%;
     border-radius: 1%; 
     display: flex;
     justify-content: center;
@@ -60,4 +60,7 @@ font-size: 16px;
 }
 .anchor:hover {
 color: bisque;
+}
+.error-message{
+    color: rgba(239, 26, 11, 0.735);
 }

@@ -9,8 +9,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60%;
-    width: 25%;
+    height: 75%;
+    width: 30%;
     background-color: #0a4375;
 }
 
@@ -53,4 +53,11 @@ color: rgb(131, 129, 133);
     }
     .anchor:hover {
     color: bisque;
+    }
+    .error-message {
+        color: rgba(239, 26, 11, 0.735);
+    }
+
+    .succes-message{
+        color: rgb(19, 161, 4);
     }
