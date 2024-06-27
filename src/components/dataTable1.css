@@ -30,3 +30,37 @@
   .data-table tbody tr:hover {
     background-color: #e9f5ff;
   }
+
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .pagination-button {
+    background-color: #007bff;
+    color:white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+
+  .pagination-button:hover {
+    background-color: #0056b3;
+  }
+
+  .pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .pagination-current-page {
+    margin: 0 10px;
+    font-weight: bold;
+    background-color: #ccc;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+  }
