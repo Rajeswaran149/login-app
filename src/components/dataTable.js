@@ -60,8 +60,13 @@ function DataTable() {
         }
       ];
 const filteredData = jsonData.filter((row) => {
- return Object.values(row).some( 
-    (value) => typeof (value) === "string" && value.toLowerCase().includes(searchTerm) )
+  const idString = row.ID.toString();
+
+ return (
+    idString.includes(searchTerm) || 
+    Object.keys(row).some((key) =>
+       typeof row[key] === 'string' && row[key].toLowerCase().includes(searchTerm))
+ )
 });
 
   return (
