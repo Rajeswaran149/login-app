@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './dataTable.css'
 
-function DataTable({ data }) {
+function DataTable() {
+
+  const [ searchTerm , setSearchTerm ] = useState('')
+
+  const handleSearch = ( (e) => {
+      setSearchTerm(e.target.value.toLowerCase())
+  })
 
     const jsonData = [
         {
@@ -53,11 +59,20 @@ function DataTable({ data }) {
           "Occupation": "Accountant"
         }
       ];
-
+const filteredData = jsonData.filter((row) => {
+ return Object.values(row).some( 
+    (value) => typeof (value) === "string" && value.toLowerCase().includes(searchTerm) )
+});
 
   return (
     <div className='table-container'>
         <h2>Sample data table</h2>
+        <input 
+         type='text'
+         placeholder='Search...'
+         value={ searchTerm }
+         onChange={ handleSearch }
+        />
         <table className='data-table'>
             <thead>
                 <tr>
@@ -71,7 +86,7 @@ function DataTable({ data }) {
             </thead>
             <tbody>
                 {
-                    jsonData.map((e) => (
+                    filteredData.map((e) => (
                         <tr key={e.ID}>
                             <td>{e.ID}</td>
                             <td>{e["First Name"]}</td>
