@@ -57,6 +57,8 @@ function DataTable() {
   const [ searchTerm , setSearchTerm ] = useState('')
   const [ data , setData ] = useState(initialData)
   const [ selectedRow , setSelectedRow ] = useState(null)
+  const [ editMode , setEditMode] = useState(false)
+  const [ editedRow , setEditedRow ] = useState(null)
 
   const handleSearch = ( (e) => {
       setSearchTerm(e.target.value.toLowerCase())
@@ -64,6 +66,8 @@ function DataTable() {
   
   const handleRowClick = (row) => {
     setSelectedRow(row)
+    setEditedRow({...row})
+    setEditMode(true)
   }
     
 
@@ -83,12 +87,29 @@ function DataTable() {
 
       const deleteRow = () => {
         if(selectedRow){
-          const updateData = data.filter((item) => item.ID != selectedRow.ID)
+          const updateData = data.filter((item) => item.ID !== selectedRow.ID)
           setData(updateData)
           setSelectedRow(null);
         }
       }
+   const cancelEdit = () => {
+       setEditedRow(null);
+       setEditMode(false);
+   }
 
+    const handleInputChange = (e) => {
+      const { name , value } = e.target;
+      setEditedRow( prevEditedRow => ({...prevEditedRow , [name]:value}));
+    }  
+   const saveChanges = () => {
+    const updatedData = data.map( (item) => (
+      item.ID === editedRow.ID ? editedRow : item
+    ))
+    setData(updatedData);
+    setEditedRow(null);
+    setSelectedRow(null);
+    setEditMode(false);
+   }
     const filteredData = data.filter((row) => {
           const idString = row.ID.toString();
 
@@ -102,7 +123,7 @@ function DataTable() {
   return (
     <div className='table-container'>
         <h2>Sample data table</h2>
-        <div className=''>
+        <div className='table-actions'>
             <input 
             className='search-input'
             type='text'
@@ -110,8 +131,16 @@ function DataTable() {
             value={ searchTerm }
             onChange={ handleSearch }
             />
-            <button className='btn-add' onClick={addRow}>Add Row</button>
-            <button className='btn-delete' onClick={deleteRow} disabled= { !selectedRow }>Delete</button>
+            <section className='btns'>
+              <button className='btn-add' onClick={addRow}>Add Row</button>
+              <button className='btn-edit' onClick={ editMode ? saveChanges : () => setEditMode(true)} disabled= { !selectedRow }>
+                { editMode ? "Save Changes" : "Edit Row"}
+                </button>
+              <button className='btn-delete' onClick={deleteRow} disabled= { !selectedRow }>Delete</button>
+              {editMode && (
+                <button className='btn-cancel' onClick={cancelEdit}>Cancel</button>
+              )}
+            </section>
         </div>
         <table className='data-table'>
             <thead>
@@ -131,11 +160,52 @@ function DataTable() {
                         className={ selectedRow && selectedRow.ID === e.ID ? "selected" : "" }
                         >
                             <td>{e.ID}</td>
-                            <td>{e["First Name"]}</td>
-                            <td>{e["Last Name"]}</td>
-                            <td>{e.Age}</td>
-                            <td>{e.City}</td>
-                            <td>{e.Occupation}</td>
+                            <td>{ editMode && selectedRow.ID === e.ID ? (
+                                    <input
+                                    type='text'
+                                    name='First Name'
+                                    value={editedRow['First Name']}
+                                    onChange={handleInputChange}
+                                    />
+                                  ) :( e["First Name"])}</td>
+
+                            <td>{ editMode && selectedRow.ID === e.ID ? (
+                                <input 
+                                type='text'
+                                name='Last Name'
+                                value={editedRow['Last Name']}
+                                onChange={handleInputChange}
+                                />
+                              ) : (e["Last Name"])}
+                            </td>
+                            <td>{ editMode && selectedRow.ID === e.ID ? (
+                            
+                                <input
+                                type='text'
+                                name='Age'
+                                value={editedRow.Age}
+                                onChange={handleInputChange}
+                                />
+                              ) : ( e.Age )
+                            } </td>
+                            <td>{ editMode &&  editedRow.ID === e.ID ? (
+                                <input
+                                type='text'
+                                name='City'
+                                value={editedRow.City}
+                                onChange={handleInputChange}
+                                />
+                                ) : ( e.City)}
+                            </td>
+                            <td>{ editMode && editedRow.ID === e.ID ? (
+                                <input
+                                type='text'
+                                name='Occupation'
+                                value={editedRow.Occupation}
+                                onChange={handleInputChange}
+                                />
+                                ) : (e.Occupation)}
+                            </td>
                         </tr>
                     ))
                 }

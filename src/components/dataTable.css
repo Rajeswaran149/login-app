@@ -5,7 +5,15 @@
     width: 100%;
     margin-bottom: 20px;
   }
-  
+  .table-actions{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .btns {
+    display: flex;
+    gap: 20px;
+  }
   .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -41,7 +49,7 @@
   .search-input{
     padding: 8px;
     border: 1px solid #ccc;
-    width: 200px;
+    width: 400px;
     border-radius: 4px;
     font-size: 14px;
     outline: none;
@@ -60,6 +68,22 @@
 .btn-add:hover{
 background-color: #07cef1;
 }
+
+.btn-edit {
+  background-color: burlywood;
+  color: #fff;
+  padding: 8px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn-edit:hover {
+  background-color: gold;
+}
+.btn-edit:disabled{
+  background-color: #ccc;
+  cursor: not-allowed;
+}
   .btn-delete {
     background-color: brown;
     color: #fff;
@@ -74,4 +98,16 @@ background-color: #07cef1;
   .btn-delete:disabled{
     background-color: #ccc;
     cursor: not-allowed;
+  }
+
+  .btn-cancel{
+    background-color: #333;
+    color: #ccc;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .btn-cancel:hover{
+    background-color: #230b0b;
   }
