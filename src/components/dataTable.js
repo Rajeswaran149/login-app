@@ -67,9 +67,8 @@ function DataTable() {
   const handleRowClick = (row) => {
     setSelectedRow(row)
     setEditedRow({...row})
-    setEditMode(true)
   }
-    
+  
 
       const addRow = () => {
         const newId = Math.max(...data.map((item) => item.ID)) + 1;
@@ -86,11 +85,11 @@ function DataTable() {
 
 
       const deleteRow = () => {
-        if(selectedRow){
+        if(selectedRow || editMode){
           const updateData = data.filter((item) => item.ID !== selectedRow.ID)
           setData(updateData)
           setSelectedRow(null);
-        }
+        } 
       }
    const cancelEdit = () => {
        setEditedRow(null);
@@ -132,11 +131,11 @@ function DataTable() {
             onChange={ handleSearch }
             />
             <section className='btns'>
-              <button className='btn-add' onClick={addRow}>Add Row</button>
+              <button className='btn-add' onClick={addRow} disabled = {selectedRow}>Add Row</button>
               <button className='btn-edit' onClick={ editMode ? saveChanges : () => setEditMode(true)} disabled= { !selectedRow }>
-                { editMode ? "Save Changes" : "Edit Row"}
+                  {editMode ? "Save Changes" : "Edit Row"}
                 </button>
-              <button className='btn-delete' onClick={deleteRow} disabled= { !selectedRow }>Delete</button>
+              <button className='btn-delete' onClick={deleteRow} disabled= { !selectedRow || editMode }>Delete</button>
               {editMode && (
                 <button className='btn-cancel' onClick={cancelEdit}>Cancel</button>
               )}
