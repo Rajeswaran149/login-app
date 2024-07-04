@@ -10,10 +10,9 @@ export default function Home() {
     <div className='home'>
         <Header />
         
-        <div className='sidebar-mainbody'>
-            {/* <Sidebar /> */}
+
             <Mainbody />
-        </div>
+
         <Footer />
     </div>
   )

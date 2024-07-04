@@ -94,6 +94,7 @@ function DataTable() {
    const cancelEdit = () => {
        setEditedRow(null);
        setEditMode(false);
+       setSelectedRow(null)
    }
 
     const handleInputChange = (e) => {

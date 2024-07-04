@@ -39,6 +39,14 @@ export default function DataTable1() {
   return (
     <div className='table-container'>
       <h2>Listed data from server</h2>
+      <div className='table-actions'>
+        <input className='search-input' type='text' placeholder='search...' value={""} onChange={""} />
+        <section className='btns'>
+          <button className='btn-add'>Add Row</button>
+          <button className='btn-edit'>Edit Row</button>
+          <button className='btn-delete'>Delete</button>
+        </section>
+      </div>
       <table className='data-table'>
           <thead>
               <tr>
