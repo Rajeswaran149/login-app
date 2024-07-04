@@ -125,3 +125,55 @@
     border: none;
     border-radius: 5px;
   }
+
+
+  /* edit-form-table bellow */
+
+  /* dataTable1.css */
+
+.edit-form-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.edit-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-form-container label {
+  margin-bottom: 10px;
+}
+
+.edit-form-container input[type='text'] {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.edit-form-container .edit-form-buttons {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-form-container .edit-form-buttons button {
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.edit-form-container .edit-form-buttons button:hover {
+  background-color: #0056b3;
+}
