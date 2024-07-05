@@ -7,6 +7,7 @@ export default function DataTable1() {
     const [ itemsPerPage ] = useState(10);
     const [ editMode , setEditMode ] = useState(false);
     const [ selectedRowData , setSelectedRowData ] = useState(null);
+    const [ searchTerm , setSearchTearm ] = useState('');
 
   
     useEffect (()=>{
@@ -29,6 +30,11 @@ export default function DataTable1() {
               console.error(error);
            }
       })
+      const handleSearch = (e) => {
+        setSearchTearm(e.target.value.toLowerCase())
+      }
+
+     
 
       const handleEdit = (rowData) => {
           setSelectedRowData(rowData)
@@ -69,15 +75,27 @@ export default function DataTable1() {
         
       }
 
+
+      const filteredData = currentItems.filter((e) => {
+        const idString = e.id.toString();
+        // console.log(idString);
+        return (
+          idString.includes(searchTerm) ||
+          Object.values(e).some((val) => typeof val === 'string' && val.toLowerCase().includes(searchTerm) )
+        )
+    })
+
   return (
     <div className='table-container'>
       <h2>Listed data from server</h2>
       <div className='table-actions'>
-        <input className='search-input' type='text' placeholder='search...' value={""} onChange={""} />
+        <input className='search-input' type='text' placeholder='search...' value={searchTerm} onChange={handleSearch} />
         <section className='btns'>
-          <button className='btn-delete'>Delete</button>
+          {/* <button className='btn-delete'>Delete</button> */}
         </section>
       </div>
+    
+          
       <table className='data-table'>
           <thead>
               <tr>
@@ -90,7 +108,7 @@ export default function DataTable1() {
           </thead>
           <tbody>
               {
-                  currentItems.map((e)=> (
+                  filteredData.map((e)=> (
                       <tr key={e.id}>
                         <td>{e.id}</td>
                         <td>{e.brand}</td>
@@ -103,6 +121,16 @@ export default function DataTable1() {
               }
           </tbody>
       </table>
+
+      {editMode && (
+          <EditForm 
+           selectedRow = {selectedRowData}
+           handleUpdate = {handleUpdate}
+           setEditMode = {setEditMode}
+          />
+           )
+          }
+
       <div className='pagination'>
         <button className='pagination-button' onClick={ () => paginate(1) } disabled = {currentPage === 1 }>First</button>
         <button className='pagination-button' onClick={ () => paginate( currentPage - 1 )} disabled = { currentPage === 1 } >Previous</button>
@@ -111,14 +139,7 @@ export default function DataTable1() {
         <button className='pagination-button' onClick={ () => paginate(Math.ceil( data.length / itemsPerPage ))} disabled = { currentPage === Math.ceil(data.length/itemsPerPage)}>Last</button>
       </div>
         
-        {editMode && (
-          <EditForm 
-           selectedRow = {selectedRowData}
-           handleUpdate = {handleUpdate}
-           setEditMode = {setEditMode}
-          />
-           )
-          }
+        
 
     </div>
   )
@@ -144,35 +165,40 @@ function EditForm ({ selectedRow ,handleUpdate , setEditMode }){
     e.preventDefault();
    handleUpdate(editedData)
   }
+  if(!selectedRow){
+    return null;
+  }
 
   return (
-    <div className='edit-form-container'>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Id:
-          <input  type='text' name='id' value={editedData.id} readOnly/>
-        </label>
-        <label>
-          Brand:
-          <input type='text' name='brand' value={editedData.brand} onChange={handleChange}/>
-        </label>
-        <label>
-          Name:
-          <input type='text' name='name' value={editedData.name} onChange={handleChange}/>
-        </label>
-        <label>
-          Category:
-          <input type='text' name='category' value={editedData.category} onChange={handleChange}/>
-        </label>
-        <label>
-          Description:
-          <input  type='text' name='description' value={editedData.description} onChange={handleChange}/>
-        </label>
-        <div className='edit-form-buttons'>
-          <button type='submit'>Update</button>
-          <button onClick={()=> setEditMode(false)}>Cancel</button>
-        </div>
-      </form>
+    <div className='edit-form-container-overlay'>
+      <div className='edit-form-container'>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Id:
+            <input  type='text' name='id' value={editedData.id || ''} readOnly/>
+          </label>
+          <label>
+            Brand:
+            <input type='text' name='brand' value={editedData.brand || ''} onChange={handleChange}/>
+          </label>
+          <label>
+            Name:
+            <input type='text' name='name' value={editedData.name || ''} onChange={handleChange}/>
+          </label>
+          <label>
+            Category:
+            <input type='text' name='category' value={editedData.category || ''} onChange={handleChange}/>
+          </label>
+          <label>
+            Description:
+            <input  type='text' name='description' value={editedData.description || ''} onChange={handleChange}/>
+          </label>
+          <div className='edit-form-buttons'>
+            <button type='submit'>Update</button>
+            <button onClick={()=> setEditMode(false)}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
